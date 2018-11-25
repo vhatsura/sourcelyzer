@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Authors>Vadim Hatsura</Authors>
+        <Copyright>Copyright (c) 2018 - Present</Copyright>
+        <PackageProjectUrl>https://github.com/vhatsura/sourcelyzer</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/vhatsura/sourcelyzer/blob/master/LICENSE</PackageLicenseUrl>
+    </PropertyGroup>
+
+</Project>
