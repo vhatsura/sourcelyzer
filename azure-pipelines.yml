@@ -6,5 +6,7 @@
 pool:
   vmImage: 'Ubuntu 16.04'
 
-- script: powershell ./build.ps1
+- script: |
+  chmod +x ./build.sh
+  ./build.sh
   displayName: 'Run a build.cake script'
