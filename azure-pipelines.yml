@@ -6,7 +6,8 @@
 pool:
   vmImage: 'Ubuntu 16.04'
 
+steps:
 - script: |
-  chmod +x ./build.sh
-  ./build.sh
+    chmod +x ./build.sh
+    ./build.sh
   displayName: 'Run a build.cake script'
