@@ -3,6 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sourcelyzer", "src\Sourcelyzer\Sourcelyzer.csproj", "{A8CF594B-CA55-48C3-B1B8-1DEE00BF9980}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{73614021-A87B-4E5B-9868-D49959145A79}"
+ProjectSection(SolutionItems) = preProject
+	build.cake = build.cake
+	build.sh = build.sh
+	README.md = README.md
+	build.ps1 = build.ps1
+EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
