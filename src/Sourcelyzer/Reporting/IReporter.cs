@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Sourcelyzer.Model;
 
-namespace Sourcelyzer.Reporters
+namespace Sourcelyzer.Reporting
 {
     public interface IReporter
     {

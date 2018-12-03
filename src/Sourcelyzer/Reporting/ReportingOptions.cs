@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sourcelyzer.Reporters
+namespace Sourcelyzer.Reporting
 {
-    public class ReportersOptions
+    public class ReportingOptions
     {
         private readonly IList<IReporter> _reporters = new List<IReporter>();
 

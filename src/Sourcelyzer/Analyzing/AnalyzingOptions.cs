@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sourcelyzer.Analyzers
+namespace Sourcelyzer.Analyzing
 {
-    public class AnalyzersOptions
+    public class AnalyzingOptions
     {
         private readonly IList<IAnalyzer> _analyzers = new List<IAnalyzer>();
 

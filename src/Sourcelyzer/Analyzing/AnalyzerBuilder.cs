@@ -1,19 +1,19 @@
 using System;
 
-namespace Sourcelyzer.Analyzers
+namespace Sourcelyzer.Analyzing
 {
     public class AnalyzerBuilder
     {
         public SourcelyzerBuilder Builder { get; }
         
-        public AnalyzersOptions Options { get; } = new AnalyzersOptions();
+        public AnalyzingOptions Options { get; } = new AnalyzingOptions();
 
         public AnalyzerBuilder(SourcelyzerBuilder builder)
         {
             Builder = builder;
         }
 
-        public SourcelyzerBuilder Configure(Action<AnalyzersOptions> setupAction)
+        public SourcelyzerBuilder Configure(Action<AnalyzingOptions> setupAction)
         {
             setupAction(Options);
             

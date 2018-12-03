@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Sourcelyzer.Model;
 
-namespace Sourcelyzer.Analyzers
+namespace Sourcelyzer.Analyzing
 {
     public interface IAnalyzer
     {

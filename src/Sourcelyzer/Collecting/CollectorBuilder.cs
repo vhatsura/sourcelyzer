@@ -1,19 +1,19 @@
 using System;
 
-namespace Sourcelyzer.Collectors
+namespace Sourcelyzer.Collecting
 {
     public class CollectorBuilder
     {
         public SourcelyzerBuilder Builder { get; }
 
-        public CollectorsOptions Options { get; } = new CollectorsOptions();
+        public CollectingOptions Options { get; } = new CollectingOptions();
         
         public CollectorBuilder(SourcelyzerBuilder builder)
         {
             Builder = builder;
         }
 
-        public SourcelyzerBuilder Configure(Action<CollectorsOptions> setupAction)
+        public SourcelyzerBuilder Configure(Action<CollectingOptions> setupAction)
         {
             setupAction(Options);
             

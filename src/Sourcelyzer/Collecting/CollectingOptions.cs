@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sourcelyzer.Collectors
+namespace Sourcelyzer.Collecting
 {
-    public class CollectorsOptions
+    public class CollectingOptions
     {
         private readonly IList<ICollector> _collectors = new List<ICollector>();
 
