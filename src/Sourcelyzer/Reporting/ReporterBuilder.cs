@@ -1,10 +1,10 @@
-namespace Sourcelyzer.Reporters
+namespace Sourcelyzer.Reporting
 {
     public class ReporterBuilder
     {
         public SourcelyzerBuilder Builder { get; }
 
-        public ReportersOptions Options { get; } = new ReportersOptions();
+        public ReportingOptions Options { get; } = new ReportingOptions();
         
         public ReporterBuilder(SourcelyzerBuilder builder)
         {

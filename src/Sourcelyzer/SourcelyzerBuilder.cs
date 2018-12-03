@@ -1,6 +1,6 @@
-using Sourcelyzer.Analyzers;
-using Sourcelyzer.Collectors;
-using Sourcelyzer.Reporters;
+using Sourcelyzer.Analyzing;
+using Sourcelyzer.Collecting;
+using Sourcelyzer.Reporting;
 
 namespace Sourcelyzer
 {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Sourcelyzer.Model;
 
-namespace Sourcelyzer.Collectors
+namespace Sourcelyzer.Collecting
 {
     public interface ICollector
     {
