@@ -6,6 +6,6 @@ namespace Sourcelyzer.Model
     {
         string Path { get; }
 
-        Task<string> GetContentAsync();    
+        Task<string> GetContentAsync();
     }
 }

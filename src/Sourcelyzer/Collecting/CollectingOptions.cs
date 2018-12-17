@@ -13,7 +13,7 @@ namespace Sourcelyzer.Collecting
         {
             if (collector == null)
                 throw new ArgumentNullException(nameof(collector));
-            
+
             _collectors.Add(collector);
         }
     }

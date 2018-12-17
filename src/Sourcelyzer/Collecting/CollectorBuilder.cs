@@ -7,7 +7,7 @@ namespace Sourcelyzer.Collecting
         public SourcelyzerBuilder Builder { get; }
 
         public CollectingOptions Options { get; } = new CollectingOptions();
-        
+
         public CollectorBuilder(SourcelyzerBuilder builder)
         {
             Builder = builder;
@@ -16,8 +16,8 @@ namespace Sourcelyzer.Collecting
         public SourcelyzerBuilder Configure(Action<CollectingOptions> setupAction)
         {
             setupAction(Options);
-            
+
             return Builder;
-        }    
+        }
     }
 }

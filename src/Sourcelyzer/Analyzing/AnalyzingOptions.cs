@@ -13,8 +13,8 @@ namespace Sourcelyzer.Analyzing
         {
             if (analyzer == null)
                 throw new ArgumentNullException(nameof(analyzer));
-            
+
             _analyzers.Add(analyzer);
-        }    
+        }
     }
 }
