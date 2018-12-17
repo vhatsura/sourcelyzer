@@ -6,6 +6,6 @@ namespace Sourcelyzer.Analyzing
 {
     public interface IAnalyzer
     {
-        Task<IAnalyzerResult> AnalyzeAsync(IRepository repository);   
+        Task<IAnalyzerResult> AnalyzeAsync(IRepository repository);
     }
 }

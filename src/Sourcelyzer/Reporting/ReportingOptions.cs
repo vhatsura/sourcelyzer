@@ -13,8 +13,8 @@ namespace Sourcelyzer.Reporting
         {
             if (reporter == null)
                 throw new ArgumentNullException(nameof(reporter));
-            
+
             _reporters.Add(reporter);
-        }        
+        }
     }
 }

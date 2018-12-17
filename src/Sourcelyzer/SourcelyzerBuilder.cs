@@ -23,6 +23,6 @@ namespace Sourcelyzer
         {
             return new Sourcelyzer(Collecting.Options.Collectors, Analyzing.Options.Analyzers,
                 Reporting.Options.Reporters);
-        }    
+        }
     }
 }

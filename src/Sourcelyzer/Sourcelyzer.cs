@@ -1,12 +1,12 @@
-﻿ using System;
- using System.Collections.Generic;
- using System.Linq;
- using System.Threading.Tasks;
- using Sourcelyzer.Analyzing;
- using Sourcelyzer.Collecting;
- using Sourcelyzer.Reporting;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Sourcelyzer.Analyzing;
+using Sourcelyzer.Collecting;
+using Sourcelyzer.Reporting;
 
- namespace Sourcelyzer
+namespace Sourcelyzer
 {
     public class Sourcelyzer
     {
@@ -33,7 +33,7 @@
                     foreach (var analyzer in Analyzers)
                     {
                         var result = await analyzer.AnalyzeAsync(repository);
-                        
+
                         foreach (var reporter in Reporters)
                         {
                             reporter.Report(result);
