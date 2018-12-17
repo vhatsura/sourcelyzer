@@ -5,6 +5,6 @@ namespace Sourcelyzer.Reporting
 {
     public interface IReporter
     {
-        void Report(IEnumerable<IAnalyzerResult> results);    
+        void Report(IAnalyzerResult results);    
     }
 }

@@ -79,4 +79,4 @@ fi
 ###########################################################################
 
 # Start Cake
-exec dotnet "$CAKE_DLL" build.cake --verbosity=$VERBOSITY --configuration=$CONFIGURATION --target=$TARGET $DRYRUN "${SCRIPT_ARGUMENTS[@]}"
+exec dotnet "$CAKE_DLL" build.cake --configuration=$CONFIGURATION --target=$TARGET $DRYRUN "${SCRIPT_ARGUMENTS[@]}"

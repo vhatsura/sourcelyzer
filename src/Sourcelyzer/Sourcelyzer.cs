@@ -32,11 +32,11 @@
                 {
                     foreach (var analyzer in Analyzers)
                     {
-                        var results = await analyzer.AnalyzeAsync(repository);
-
+                        var result = await analyzer.AnalyzeAsync(repository);
+                        
                         foreach (var reporter in Reporters)
                         {
-                            reporter.Report(results);
+                            reporter.Report(result);
                         }
                     }
                 }
