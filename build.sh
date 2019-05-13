@@ -8,7 +8,7 @@
 # Define directories.
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TOOLS_DIR=$SCRIPT_DIR/tools
-CAKE_VERSION=0.30.0
+CAKE_VERSION=0.32.1
 CAKE_NUGET_URL="https://www.nuget.org/api/v2/package/Cake.CoreCLR/$CAKE_VERSION"
 CAKE_DLL=$TOOLS_DIR/Cake.CoreCLR.$CAKE_VERSION/Cake.dll
 
