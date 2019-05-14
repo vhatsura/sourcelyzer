@@ -64,8 +64,7 @@ namespace Sourcelyzer.Analyzing.NuGet.Tests.Client
 
             // Act
             var versions = nugetClient
-                .GetAllVersions(new PackageReference(new PackageIdentity("SomeLibrary", new NuGetVersion("2.2.5148")),
-                    new NuGetFramework("net46")))
+                .GetAllVersions(GetPackageReference())
                 .ToList();
 
             // Assert
@@ -110,14 +109,22 @@ namespace Sourcelyzer.Analyzing.NuGet.Tests.Client
 
             // Act
             var versions = nugetClient
-                .GetAllVersions(new PackageReference(new PackageIdentity("SomeLibrary", new NuGetVersion("2.2.5148")),
-                    new NuGetFramework("net46")))
+                .GetAllVersions(GetPackageReference())
                 .ToList();
 
             // Assert
             Assert.Equal(2, versions.Count);
             Assert.Equal(nugetVersions, versions.First(x => x.PackageSource.Name == nuGetSource).Versions);
             Assert.Equal(myGetVersions, versions.First(x => x.PackageSource.Name == myGetSource).Versions);
+        }
+
+        private static PackageReference GetPackageReference()
+        {
+            return new PackageReference(
+                new PackageIdentity(
+                    "SomeLibrary",
+                    new NuGetVersion("2.2.5148")),
+                new NuGetFramework("net46"));
         }
     }
 }
