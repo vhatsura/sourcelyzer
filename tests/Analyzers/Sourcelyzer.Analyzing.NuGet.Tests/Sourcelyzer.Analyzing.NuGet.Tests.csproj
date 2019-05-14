@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+
+        <AssemblyName>Sourcelyzer.Analyzing.NuGet.Tests</AssemblyName>
+
+        <RootNamespace>Sourcelyzer.Analyzing.NuGet.Tests</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.0" />
+        <PackageReference Include="Moq" Version="4.10.1" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\src\Analyzers\Sourcelyzer.Analyzing.NuGet\Sourcelyzer.Analyzing.NuGet.csproj" />
+    </ItemGroup>
+
+</Project>
