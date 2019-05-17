@@ -2,7 +2,7 @@
 
 Environment.SetVariableNames();
 
-var pushNuGetPackages = Context.BuildSystem.IsRunningOnAppVeyor && Context.BuildSystem.AppVeyor.Environment.Repository.Branch == "develop";
+var pushNuGetPackages = BuildSystem.IsRunningOnAppVeyor && BuildSystem.AppVeyor.Environment.Repository.Branch == "develop";
 
 BuildParameters.SetParameters(context: Context,
                             buildSystem: BuildSystem,
