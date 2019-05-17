@@ -20,6 +20,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sourcelyzer.Analyzing.NuGet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sourcelyzer.Analyzing.NuGet", "src\Analyzers\Sourcelyzer.Analyzing.NuGet\Sourcelyzer.Analyzing.NuGet.csproj", "{CA6A2D48-EBC7-4640-B1F3-FB30C8A0DD74}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{EFDC7CF7-281B-403A-81FF-C7F0FE046DC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.NetCoreApp", "examples\Example.NetCoreApp\Example.NetCoreApp.csproj", "{4345A8B7-82FE-4C99-81DE-D478F373E520}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "collectors", "collectors", "{662BA5F0-A126-4DD6-B78F-08309B2DA087}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sourcelyzer.GitHub", "src\Sourcelyzer.GitHub\Sourcelyzer.GitHub.csproj", "{534568DE-B139-4746-9E1A-D01455155706}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,10 +46,19 @@ Global
 		{CA6A2D48-EBC7-4640-B1F3-FB30C8A0DD74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA6A2D48-EBC7-4640-B1F3-FB30C8A0DD74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA6A2D48-EBC7-4640-B1F3-FB30C8A0DD74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4345A8B7-82FE-4C99-81DE-D478F373E520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4345A8B7-82FE-4C99-81DE-D478F373E520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4345A8B7-82FE-4C99-81DE-D478F373E520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4345A8B7-82FE-4C99-81DE-D478F373E520}.Release|Any CPU.Build.0 = Release|Any CPU
+		{534568DE-B139-4746-9E1A-D01455155706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{534568DE-B139-4746-9E1A-D01455155706}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{534568DE-B139-4746-9E1A-D01455155706}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{534568DE-B139-4746-9E1A-D01455155706}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DED861DF-C2A9-4754-90FE-B7D12805D6DB} = {58F76BA2-9F07-4B7F-8999-0A0CEDB31A81}
 		{82D10DED-51DB-4E00-BEE8-13D27BC9E142} = {DED861DF-C2A9-4754-90FE-B7D12805D6DB}
 		{CA6A2D48-EBC7-4640-B1F3-FB30C8A0DD74} = {0E2D1969-592B-47E8-8FCD-D2EF73599448}
+		{4345A8B7-82FE-4C99-81DE-D478F373E520} = {EFDC7CF7-281B-403A-81FF-C7F0FE046DC7}
 	EndGlobalSection
 EndGlobal

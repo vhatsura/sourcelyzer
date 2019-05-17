@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MoreLinq;
+using NuGet.Configuration;
 using NuGet.Packaging;
 using Sourcelyzer.Analyzing.NuGet.Client;
 using Sourcelyzer.Analyzing.NuGet.Reader;
@@ -43,7 +44,8 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
             {
                 var packages = (await Reader.GetPackagesAsync(file))
                     .Select(x => GetNuGetMetadata(x))
-                    .Where(x => x.IsPrerelease || x.IsOutdated);
+                    .Where(x => x.IsPrerelease || x.IsOutdated)
+                    .ToList();
 
                 result.AddNuGetMetadata(packages, file);
             }
@@ -53,16 +55,24 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 
         private NuGetMetadata GetNuGetMetadata(PackageReference package)
         {
-            var packageVersions = NuGetClient.GetAllVersions(package);
+            try
+            {
+                var packageVersions = NuGetClient.GetAllVersions(package);
 
-            var latest = packageVersions
-                .Select(x => (
-                    x.PackageSource,
-                    Version: x.Versions.Where(v => !v.IsPrerelease).DefaultIfEmpty().Max(v => v.Version)))
-                .MaxBy(x => x.Version)
-                .FirstOrDefault(x => x.Version != default);
+                var latest = packageVersions
+                    .Select(x => (
+                        x.PackageSource,
+                        Version: x.Versions.Where(v => !v.IsPrerelease).DefaultIfEmpty().Max(v => v?.Version)))
+                    .MaxBy(x => x.Version)
+                    .FirstOrDefault(x => x.Version != default);
 
-            return new NuGetMetadata(package, latest);
+                return new NuGetMetadata(package, latest);
+            }
+            catch (Exception exception)
+            {
+                return new NuGetMetadata(package,
+                    (PackageSource: new PackageSource("local"), package.PackageIdentity.Version.Version));
+            }
         }
     }
 }

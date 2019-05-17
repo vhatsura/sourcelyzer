@@ -7,6 +7,7 @@ using MoreLinq.Experimental;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Packaging;
+using NuGet.Packaging.Core;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
 
@@ -45,28 +46,28 @@ namespace Sourcelyzer.Analyzing.NuGet.Client
             PackageReference package)
         {
             return SourceRepositories
-                .Await((repo, token) => GetVersionsFromPackageSource(repo, package.PackageIdentity.Id, token));
+                .Await((repo, token) => GetVersionsFromPackageSource(repo, package.PackageIdentity, token));
         }
 
         private async Task<(PackageSource PackageSource, IList<NuGetVersion> Versions)> GetVersionsFromPackageSource(
-            SourceRepository repository, string packageId, CancellationToken token)
+            SourceRepository repository, PackageIdentity package, CancellationToken token)
         {
             var packageSource = repository.PackageSource;
 
-            if (Cache.TryGetValue((packageSource.Name, packageId), out var cachedVersions))
+            if (!Cache.TryGetValue((packageSource.Name, package.Id), out var cachedVersions))
             {
-                return (packageSource, cachedVersions);
+                var resource = await repository.GetResourceAsync<FindPackageByIdResource>(token);
+                cachedVersions = (resource != null
+                        ? await resource.GetAllVersionsAsync(package.Id, _sourceCacheContext, _logger, token)
+                        : Enumerable.Empty<NuGetVersion>())
+                    .ToList();
+
+                Cache.Add((packageSource.Name, package.Id), cachedVersions);
             }
 
-            var resource = await repository.GetResourceAsync<FindPackageByIdResource>(token);
-            var versions = (resource != null
-                    ? await resource.GetAllVersionsAsync(packageId, _sourceCacheContext, _logger, token)
-                    : Enumerable.Empty<NuGetVersion>())
-                .ToList();
-
-            Cache.Add((packageSource.Name, packageId), versions);
-
-            return (packageSource, versions);
+            return !cachedVersions.Any()
+                ? (new PackageSource("local"), new List<NuGetVersion> {package.Version})
+                : (packageSource, cachedVersions);
         }
     }
 }
