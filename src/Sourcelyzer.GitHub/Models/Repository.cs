@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,9 +17,13 @@ namespace Sourcelyzer.GitHub.Models
         
         internal Repository(Octokit.Repository repository, Octokit.GitHubClient client)
         {
-            _repository = repository;
-            _client = client;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _client = client ?? throw new ArgumentNullException(nameof(client));
         }
+
+        public long Id => _repository.Id;
+        public string Owner => _repository.Owner.Name;
+        public string Name => _repository.Name;
 
         public async Task<IEnumerable<IFile>> GetFilesAsync()
         {

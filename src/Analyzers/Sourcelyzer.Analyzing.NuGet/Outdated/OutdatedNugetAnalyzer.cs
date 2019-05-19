@@ -8,6 +8,7 @@ using NuGet.Packaging;
 using Sourcelyzer.Analyzing.NuGet.Client;
 using Sourcelyzer.Analyzing.NuGet.Reader;
 using Sourcelyzer.Model;
+using Sourcelyzer.Model.Analyzing;
 
 namespace Sourcelyzer.Analyzing.Nuget.Outdated
 {

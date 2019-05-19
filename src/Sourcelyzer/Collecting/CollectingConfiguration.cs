@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Sourcelyzer.Collecting
 {
-    public class CollectingOptions
+    public class CollectingConfiguration
     {
         private readonly IList<ICollector> _collectors = new List<ICollector>();
 

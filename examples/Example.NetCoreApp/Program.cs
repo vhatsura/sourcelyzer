@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Sourcelyzer;
 using Sourcelyzer.Analyzing.Nuget;
 using Sourcelyzer.GitHub.Collecting;
+using Sourcelyzer.GitHub.Reporting;
 
 namespace Example.NetCoreApp
 {
@@ -18,6 +19,7 @@ namespace Example.NetCoreApp
                         
                     })
                 .Analyzing.FindOutdatedNuget(new[] {"https://api.nuget.org/v3/index.json"})
+                .Reporting.AsGitHubIssue()
                 .Build();
 
             await sourcelyzer.RunAsync();
