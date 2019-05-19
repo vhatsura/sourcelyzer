@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Sourcelyzer.Model;
+using Sourcelyzer.Model.Analyzing;
 
 namespace Sourcelyzer.Reporting
 {
     public interface IReporter
     {
-        void Report(IAnalyzerResult result);    
+        Task ReportAsync(IAnalyzerResult result);    
     }
 }

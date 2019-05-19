@@ -1,19 +1,29 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Sourcelyzer.Model;
+using Sourcelyzer.Model.Analyzing;
 
 namespace Sourcelyzer.Analyzing.Nuget.Outdated
 {
-    public class OutdatedNuGetResult : IAnalyzerResult
+    internal class OutdatedNuGetResult : IAnalyzerResult
     {
         internal IDictionary<string, IEnumerable<NuGetMetadata>> OutdatedNuGets { get; } =
             new Dictionary<string, IEnumerable<NuGetMetadata>>();
+
+        internal OutdatedNuGetResult(IRepository repository)
+        {
+            Repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        }
+        
+        public IRepository Repository { get; }
 
         public string ToMarkdown()
         {
             var stringBuilder = new StringBuilder();
 
-            foreach (var project in OutdatedNuGets)
+            foreach (var project in OutdatedNuGets.Where(x => x.Value.Any()))
             {
                 stringBuilder.AppendLine($"In `{project.Key}` founded the following outdated nuget packages:");
                 

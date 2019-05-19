@@ -1,17 +1,18 @@
 using System;
 using Octokit;
 using Octokit.Internal;
+using Sourcelyzer.Collecting;
 using Sourcelyzer.GitHub.Collecting.Filter;
 
 namespace Sourcelyzer.GitHub.Collecting
 {
-    public class CollectingBuilder
+    public class GitHubCollectorBuilder
     {
         public FilterBuilder Filter { get; }
 
         private readonly Options _options;
         
-        internal CollectingBuilder(string productName, Options options)
+        internal GitHubCollectorBuilder(string productName, Options options)
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
 
@@ -20,16 +21,21 @@ namespace Sourcelyzer.GitHub.Collecting
             Filter = new FilterBuilder(this, _options.Filter);
         }
         
-        public CollectingBuilder WithAuthorizationToken(string token)
+        public GitHubCollectorBuilder WithAuthorizationToken(string token)
         {
             _options.CredentialStore = new InMemoryCredentialStore(new Credentials(token)); 
             return this;
         }
 
-        public CollectingBuilder UseCustomUri(Uri uri)
+        public GitHubCollectorBuilder UseCustomUri(Uri uri)
         {
-            _options.GithubUri = uri ?? throw new ArgumentNullException(nameof(uri));
+            _options.SetGitHubUri(uri);
             return this;
+        }
+
+        internal ICollector Build()
+        {
+            return new GitHubCollector(_options);
         }
     }
 }

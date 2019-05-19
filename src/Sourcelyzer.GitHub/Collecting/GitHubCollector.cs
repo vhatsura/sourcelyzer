@@ -9,11 +9,11 @@ using Sourcelyzer.Model;
 
 namespace Sourcelyzer.GitHub.Collecting
 {
-    public class GithubCollector : ICollector
+    internal class GitHubCollector : ICollector
     {
-        private readonly Options _options;
+        private readonly ICollectorOptions _options;
 
-        internal GithubCollector(Options options)
+        internal GitHubCollector(ICollectorOptions options)
         {
             _options = options;
         }
