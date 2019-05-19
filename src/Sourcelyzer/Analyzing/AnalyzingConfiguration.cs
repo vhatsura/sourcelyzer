@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Sourcelyzer.Analyzing
 {
-    public class AnalyzingOptions
+    public class AnalyzingConfiguration
     {
         private readonly IList<IAnalyzer> _analyzers = new List<IAnalyzer>();
 

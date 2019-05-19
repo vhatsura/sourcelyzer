@@ -36,7 +36,7 @@ namespace Sourcelyzer
 
                         foreach (var reporter in Reporters)
                         {
-                            reporter.Report(result);
+                            await reporter.ReportAsync(result);
                         }
                     }
                 }

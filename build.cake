@@ -2,6 +2,8 @@
 
 Environment.SetVariableNames();
 
+var pushNuGetPackages = BuildSystem.IsRunningOnAppVeyor && BuildSystem.AppVeyor.Environment.Repository.Branch == "develop";
+
 BuildParameters.SetParameters(context: Context,
                             buildSystem: BuildSystem,
                             sourceDirectoryPath: "./src",
@@ -10,7 +12,9 @@ BuildParameters.SetParameters(context: Context,
                             repositoryOwner: "vhatsura",
                             repositoryName: "sourcelyzer",
                             shouldRunGitVersion: true,
-                            shouldRunDotNetCorePack: true);
+                            shouldRunDotNetCorePack: true,
+                            shouldPublishMyGet: pushNuGetPackages,
+                            shouldPublishNuGet: pushNuGetPackages);
 
 BuildParameters.PrintParameters(Context);
 
