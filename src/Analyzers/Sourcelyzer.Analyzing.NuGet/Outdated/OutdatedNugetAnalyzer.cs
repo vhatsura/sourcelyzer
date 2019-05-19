@@ -34,12 +34,12 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
             var files = (await repository.GetFilesAsync())
                 .Where(f => f.Path.EndsWith(".csproj") || f.Path.EndsWith("packages.config"));
 
-            return await GetAnalyzerResultsAsync(files);
+            return await GetAnalyzerResultsAsync(files, repository);
         }
 
-        private async Task<IAnalyzerResult> GetAnalyzerResultsAsync(IEnumerable<IFile> files)
+        private async Task<IAnalyzerResult> GetAnalyzerResultsAsync(IEnumerable<IFile> files, IRepository repository)
         {
-            var result = new OutdatedNuGetResult();
+            var result = new OutdatedNuGetResult(repository);
 
             foreach (var file in files)
             {
