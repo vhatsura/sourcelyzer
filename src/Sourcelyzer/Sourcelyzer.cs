@@ -32,11 +32,14 @@ namespace Sourcelyzer
                 {
                     foreach (var analyzer in Analyzers)
                     {
-                        var result = await analyzer.AnalyzeAsync(repository);
+                        var results = await analyzer.AnalyzeAsync(repository);
 
-                        foreach (var reporter in Reporters)
+                        foreach (var analyzerResult in results)
                         {
-                            await reporter.ReportAsync(result);
+                            foreach (var reporter in Reporters)    
+                            {
+                                await reporter.ReportAsync(analyzerResult);    
+                            }
                         }
                     }
                 }

@@ -4,6 +4,8 @@ namespace Sourcelyzer.Model.Analyzing
     {
         IRepository Repository { get; }
         
+        string Title { get; }
+        
         string ToMarkdown();
     }
 }

@@ -20,7 +20,7 @@ namespace Sourcelyzer.GitHub.Reporting
             await _options.Client.Issue.Create(
                 result.Repository.Owner,
                 result.Repository.Name,
-                new NewIssue("title")
+                new NewIssue(result.Title)
                 {
                     Body = result.ToMarkdown()
                 });

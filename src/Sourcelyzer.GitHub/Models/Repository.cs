@@ -22,7 +22,7 @@ namespace Sourcelyzer.GitHub.Models
         }
 
         public long Id => _repository.Id;
-        public string Owner => _repository.Owner.Name;
+        public string Owner => _repository.Owner.Login;
         public string Name => _repository.Name;
 
         public async Task<IEnumerable<IFile>> GetFilesAsync()

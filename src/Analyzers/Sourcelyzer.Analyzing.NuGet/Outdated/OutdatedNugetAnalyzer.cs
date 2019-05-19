@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,26 +30,33 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 
         private INuGetClient NuGetClient { get; }
 
-        public async Task<IAnalyzerResult> AnalyzeAsync(IRepository repository)
+        public async Task<IEnumerable<IAnalyzerResult>> AnalyzeAsync(IRepository repository)
         {
             var files = (await repository.GetFilesAsync())
                 .Where(f => f.Path.EndsWith(".csproj") || f.Path.EndsWith("packages.config"));
 
-            return await GetAnalyzerResultsAsync(files, repository);
+            var outDatedNuGets = await GetAnalyzerResultsAsync(files);
+
+            return outDatedNuGets.SelectMany(x => x.OutDatedNuGets.Select(n => (x.Project, NuGetMetadata: n)))
+                .GroupBy(x => x.NuGetMetadata.PackageName)
+                .Select(x => new OutdatedNuGetResult(repository, x.First().NuGetMetadata, x.Select(v => v.Project)))
+                .ToList();
         }
 
-        private async Task<IAnalyzerResult> GetAnalyzerResultsAsync(IEnumerable<IFile> files, IRepository repository)
+        private async Task<IEnumerable<(string Project, IEnumerable<NuGetMetadata> OutDatedNuGets)>>
+            GetAnalyzerResultsAsync(IEnumerable<IFile> files)
         {
-            var result = new OutdatedNuGetResult(repository);
+            var result = new ConcurrentBag<(string, IEnumerable<NuGetMetadata>)>();
 
-            foreach (var file in files)
+            foreach (var file in files.AsParallel())
             {
                 var packages = (await Reader.GetPackagesAsync(file))
                     .Select(x => GetNuGetMetadata(x))
                     .Where(x => x.IsPrerelease || x.IsOutdated)
                     .ToList();
 
-                result.AddNuGetMetadata(packages, file);
+                if (packages.Any())
+                    result.Add((file.Path, packages));
             }
 
             return result;

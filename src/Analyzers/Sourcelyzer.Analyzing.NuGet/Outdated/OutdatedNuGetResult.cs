@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Sourcelyzer.Model;
 using Sourcelyzer.Model.Analyzing;
@@ -9,39 +8,45 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 {
     internal class OutdatedNuGetResult : IAnalyzerResult
     {
-        internal IDictionary<string, IEnumerable<NuGetMetadata>> OutdatedNuGets { get; } =
-            new Dictionary<string, IEnumerable<NuGetMetadata>>();
+        internal NuGetMetadata OutdatedNuGet { get; }
 
-        internal OutdatedNuGetResult(IRepository repository)
+        internal OutdatedNuGetResult(IRepository repository, NuGetMetadata metadata, IEnumerable<string> projects)
         {
+            if (metadata == null) throw new ArgumentNullException(nameof(metadata));
+            if (!metadata.IsOutdated)
+                throw new ArgumentException("The nuget package must be outdated", nameof(metadata));
+
             Repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            OutdatedNuGet = metadata;
+            Projects = projects;
         }
-        
+
         public IRepository Repository { get; }
+
+        internal IEnumerable<string> Projects { get; }
+
+        public string Title =>
+            $"Package {OutdatedNuGet.PackageName} need to be updated to {OutdatedNuGet.Latest} version";
 
         public string ToMarkdown()
         {
             var stringBuilder = new StringBuilder();
 
-            foreach (var project in OutdatedNuGets.Where(x => x.Value.Any()))
+            stringBuilder.Append($"`{OutdatedNuGet.PackageName}` from ");
+            stringBuilder.Append(
+                $"[{OutdatedNuGet.PackageSource.SourceUri.Host}]({OutdatedNuGet.PackageSource.SourceUri}) ");
+            stringBuilder.AppendLine("is outdated in:");
+
+            foreach (var project in Projects)
             {
-                stringBuilder.AppendLine($"In `{project.Key}` founded the following outdated nuget packages:");
-                
-                foreach (var nuGetMetadata in project.Value)
-                {
-                    stringBuilder.Append($"- [ ] `{nuGetMetadata.PackageName}` from ");
-                    stringBuilder.Append(
-                        $"[{nuGetMetadata.PackageSource.Name}]({nuGetMetadata.PackageSource.Source}) can be updated from ");
-                    stringBuilder.AppendLine($"{nuGetMetadata.Current} to {nuGetMetadata.Latest}");
-                }
+                stringBuilder.AppendLine($"* {project}");
             }
 
-            return stringBuilder.ToString();
-        }
+            stringBuilder.AppendLine();
 
-        internal void AddNuGetMetadata(IEnumerable<NuGetMetadata> metadata, IFile file)
-        {
-            OutdatedNuGets.Add(file.Path, metadata);
+            stringBuilder.AppendLine($"The latest version is {OutdatedNuGet.Latest}");
+
+            return stringBuilder.ToString();
         }
     }
 }
