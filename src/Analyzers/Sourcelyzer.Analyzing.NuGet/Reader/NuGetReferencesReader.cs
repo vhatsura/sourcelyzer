@@ -11,16 +11,16 @@ namespace Sourcelyzer.Analyzing.NuGet.Reader
 {
     internal class NuGetReferencesReader : INuGetReferencesReader
     {
-        private readonly IPackagesConfigReaderFactory _factory;
-        
+        private readonly IPackageReferencesReaderFactory _factory;
+
         internal NuGetReferencesReader()
-            : this(new PackagesConfigReaderFactory())
+            : this(new PackageReferencesReaderFactory())
         {
         }
 
-        internal NuGetReferencesReader(IPackagesConfigReaderFactory packagesConfigReaderFactory)
+        internal NuGetReferencesReader(IPackageReferencesReaderFactory packageReferencesReaderFactory)
         {
-            _factory = packagesConfigReaderFactory;
+            _factory = packageReferencesReaderFactory;
         }
 
         Task<IEnumerable<PackageReference>> INuGetReferencesReader.GetPackagesAsync(IFile file)
@@ -34,20 +34,11 @@ namespace Sourcelyzer.Analyzing.NuGet.Reader
 
             using (var stringReader = new StringReader(content.Trim('\uFEFF')))
             {
-                var xDocument = XDocument.Load(stringReader);
+                var document = XDocument.Load(stringReader);
 
-                if (file.Path.EndsWith("packages.config"))
-                {
-                    var reader = _factory.CreateReader(xDocument);
-                    return reader?.GetPackages() ?? Enumerable.Empty<PackageReference>();
-                }
+                var packageReferencesReader = _factory.CreateReader(file.Path);
 
-                if (file.Path.EndsWith(".csproj"))
-                {
-                    return Enumerable.Empty<PackageReference>();
-                }
-
-                throw new InvalidOperationException($"Unable to get nuget packages from {file.Path}");
+                return packageReferencesReader.GetPackages(document);
             }
         }
     }
