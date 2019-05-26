@@ -19,7 +19,7 @@ namespace Example.NetCoreApp
                     builder => { })
                 .Analyzing.FindOutdatedNuget(new[] {"https://api.nuget.org/v3/index.json"})
                 .Reporting.AsHtmlFile("reports",
-                    options => { options.SegregateBy(SegregationType.DirectoryPerRepository); })
+                    options => { })
                 .Build();
 
             await sourcelyzer.RunAsync();
