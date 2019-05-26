@@ -11,8 +11,7 @@ namespace Sourcelyzer.Analyzing.NuGet.Reader
     {
         public IEnumerable<PackageReference> GetPackages(XDocument document)
         {
-            if (document.Root == null || !document.Root.HasElements)
-                yield break;
+            if (document.Root == null || !document.Root.HasElements) yield break;
 
             foreach (var element in document.Root.Descendants("PackageReference"))
             {
@@ -20,10 +19,8 @@ namespace Sourcelyzer.Analyzing.NuGet.Reader
                 var version = element.Attribute("Version")?.Value;
 
                 if (packageId != null && version != null)
-                {
                     yield return new PackageReference(new PackageIdentity(packageId, NuGetVersion.Parse(version)),
                         NuGetFramework.AgnosticFramework);
-                }
             }
         }
     }

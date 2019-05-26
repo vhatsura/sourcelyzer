@@ -1,37 +1,36 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Octokit;
 using Sourcelyzer.Model;
 
 namespace Sourcelyzer.GitHub.Models
 {
     internal class File : IFile
     {
-        private readonly Octokit.RepositoryContent _content;
-        private readonly Octokit.Repository _repository;
-        private readonly Octokit.GitHubClient _client;
+        private readonly RepositoryContent _content;
 
-        public File(Octokit.RepositoryContent content, Octokit.Repository repository, Octokit.GitHubClient client)
+        private readonly AsyncLazy<string> _stringContentLazy;
+
+        public File(RepositoryContent content, Octokit.Repository repository, GitHubClient client)
         {
             _content = content;
-            _repository = repository;
-            _client = client;
+            var localRepository = repository;
+            _stringContentLazy = new AsyncLazy<string>(async () =>
+            {
+                var fileContent = await client.Repository.Content.GetAllContents(
+                    localRepository.Owner.Login,
+                    localRepository.Name,
+                    _content.Path);
+
+                return fileContent.First().Content;
+            });
         }
 
         public string Path => _content.Path;
 
-        public async Task<string> GetContentAsync()
+        public Task<string> GetContentAsync()
         {
-            if (_stringContent == null)
-            {
-                var packagesFile =
-                    await _client.Repository.Content.GetAllContents(_repository.Owner.Login, _repository.Name,
-                        _content.Path);
-                _stringContent = packagesFile.First().Content;
-            }
-
-            return _stringContent;
+            return _stringContentLazy.Value;
         }
-
-        private string _stringContent;
     }
 }

@@ -49,8 +49,17 @@ namespace Sourcelyzer.Analyzing.NuGet.Tests.Client
             return mock;
         }
 
+        private static PackageReference GetPackageReference()
+        {
+            return new PackageReference(
+                new PackageIdentity(
+                    "SomeLibrary",
+                    new NuGetVersion("2.2.5148")),
+                new NuGetFramework("net46"));
+        }
+
         [Fact]
-        public void GetAllVersions_ShouldReturnEmptyListForPackageSource_WhenResourceIsNull()
+        public void GetAllVersions_ShouldReturnOriginalVersion_WhenResourceIsNull()
         {
             // Arrange
             const string nuGetSource = "https://api.nuget.org/v3/index.json";
@@ -69,7 +78,11 @@ namespace Sourcelyzer.Analyzing.NuGet.Tests.Client
 
             // Assert
             Assert.Single(versions);
-            Assert.Collection(versions, x => Assert.Empty(x.Versions));
+            Assert.Collection(versions, x =>
+            {
+                Assert.Single(x.Versions);
+                Assert.Equal(new NuGetVersion("2.2.5148"), x.Versions.First());
+            });
         }
 
         [Fact]
@@ -116,15 +129,6 @@ namespace Sourcelyzer.Analyzing.NuGet.Tests.Client
             Assert.Equal(2, versions.Count);
             Assert.Equal(nugetVersions, versions.First(x => x.PackageSource.Name == nuGetSource).Versions);
             Assert.Equal(myGetVersions, versions.First(x => x.PackageSource.Name == myGetSource).Versions);
-        }
-
-        private static PackageReference GetPackageReference()
-        {
-            return new PackageReference(
-                new PackageIdentity(
-                    "SomeLibrary",
-                    new NuGetVersion("2.2.5148")),
-                new NuGetFramework("net46"));
         }
     }
 }

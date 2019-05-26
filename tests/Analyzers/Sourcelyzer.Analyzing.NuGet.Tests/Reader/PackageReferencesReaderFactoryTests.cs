@@ -13,12 +13,22 @@ namespace Sourcelyzer.Analyzing.NuGet.Tests.Reader
         {
             // Arrange
             var factory = new PackageReferencesReaderFactory();
-            
+
             // Act
             var reader = factory.CreateReader(path);
 
             // Assert
             Assert.Equal(readerType, reader.GetType());
+        }
+
+        [Fact]
+        public void CreateReader_ShouldThrowException_WhenPathIsNotSupported()
+        {
+            // Arrange
+            var factory = new PackageReferencesReaderFactory();
+
+            // Act + Assert
+            Assert.Throws<InvalidOperationException>(() => factory.CreateReader("file.cs"));
         }
     }
 }

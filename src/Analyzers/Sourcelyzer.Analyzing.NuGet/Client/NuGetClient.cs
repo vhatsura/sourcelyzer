@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace Sourcelyzer.Analyzing.NuGet.Client
 
         private readonly SourceCacheContext _sourceCacheContext = new SourceCacheContext();
 
+        [ExcludeFromCodeCoverage]
         internal NuGetClient(IEnumerable<string> packageSources)
             : this(packageSources, new SourceRepositoryCreator())
         {
@@ -36,13 +38,7 @@ namespace Sourcelyzer.Analyzing.NuGet.Client
 
         private IList<SourceRepository> SourceRepositories { get; }
 
-        IEnumerable<(PackageSource PackageSource, IList<NuGetVersion> Versions)> INuGetClient.GetAllVersions(
-            PackageReference package)
-        {
-            return GetAllVersions(package);
-        }
-
-        internal IEnumerable<(PackageSource PackageSource, IList<NuGetVersion> Versions)> GetAllVersions(
+        public IEnumerable<(PackageSource PackageSource, IList<NuGetVersion> Versions)> GetAllVersions(
             PackageReference package)
         {
             return SourceRepositories

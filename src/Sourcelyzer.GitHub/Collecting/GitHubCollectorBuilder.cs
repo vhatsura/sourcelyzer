@@ -8,22 +8,22 @@ namespace Sourcelyzer.GitHub.Collecting
 {
     public class GitHubCollectorBuilder
     {
-        public FilterBuilder Filter { get; }
-
         private readonly Options _options;
-        
+
         internal GitHubCollectorBuilder(string productName, Options options)
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
 
             _options.ProductName = productName ?? throw new ArgumentNullException(nameof(productName));
-            
+
             Filter = new FilterBuilder(this, _options.Filter);
         }
-        
+
+        public FilterBuilder Filter { get; }
+
         public GitHubCollectorBuilder WithAuthorizationToken(string token)
         {
-            _options.CredentialStore = new InMemoryCredentialStore(new Credentials(token)); 
+            _options.CredentialStore = new InMemoryCredentialStore(new Credentials(token));
             return this;
         }
 

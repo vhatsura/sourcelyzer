@@ -9,16 +9,13 @@ using Sourcelyzer.GitHub.Reporting;
 
 namespace Example.NetCoreApp
 {
-    class Program
+    internal class Program
     {
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
         {
             var sourcelyzer = new SourcelyzerBuilder()
                 .Collecting.FromGitHub("Sourcelyzer",
-                    builder =>
-                    {
-                        
-                    })
+                    builder => { })
                 .Analyzing.FindOutdatedNuget(new[] {"https://api.nuget.org/v3/index.json"})
                 .Reporting.AsGitHubIssue()
                 .Build();

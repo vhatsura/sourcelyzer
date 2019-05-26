@@ -40,7 +40,7 @@ namespace Sourcelyzer.Analyzing.Nuget
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((NuGetMetadata) obj);
         }
 
@@ -48,7 +48,7 @@ namespace Sourcelyzer.Analyzing.Nuget
         {
             unchecked
             {
-                var hashCode = (PackageName != null ? PackageName.GetHashCode() : 0);
+                var hashCode = PackageName != null ? PackageName.GetHashCode() : 0;
                 hashCode = (hashCode * 397) ^ (PackageSource != null ? PackageSource.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ IsPrerelease.GetHashCode();
                 hashCode = (hashCode * 397) ^ (Current != null ? Current.GetHashCode() : 0);

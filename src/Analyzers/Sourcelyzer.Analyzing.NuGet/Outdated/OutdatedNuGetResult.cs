@@ -8,11 +8,10 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 {
     internal class OutdatedNuGetResult : IAnalyzerResult
     {
-        internal NuGetMetadata OutdatedNuGet { get; }
-
         internal OutdatedNuGetResult(IRepository repository, NuGetMetadata metadata, IEnumerable<string> projects)
         {
             if (metadata == null) throw new ArgumentNullException(nameof(metadata));
+
             if (!metadata.IsOutdated)
                 throw new ArgumentException("The nuget package must be outdated", nameof(metadata));
 
@@ -21,9 +20,11 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
             Projects = projects;
         }
 
-        public IRepository Repository { get; }
+        internal NuGetMetadata OutdatedNuGet { get; }
 
         internal IEnumerable<string> Projects { get; }
+
+        public IRepository Repository { get; }
 
         public string Title =>
             $"Package {OutdatedNuGet.PackageName} need to be updated to {OutdatedNuGet.Latest} version";

@@ -55,8 +55,7 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
                     .Where(x => x.IsPrerelease || x.IsOutdated)
                     .ToList();
 
-                if (packages.Any())
-                    result.Add((file.Path, packages));
+                if (packages.Any()) result.Add((file.Path, packages));
             }
 
             return result;

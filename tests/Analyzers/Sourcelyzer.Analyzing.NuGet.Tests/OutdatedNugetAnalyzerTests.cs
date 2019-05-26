@@ -1,12 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
-using NuGet.Configuration;
-using NuGet.Frameworks;
-using NuGet.Packaging;
-using NuGet.Packaging.Core;
-using NuGet.Versioning;
 using Sourcelyzer.Analyzing.NuGet.Client;
 using Sourcelyzer.Analyzing.Nuget.Outdated;
 using Sourcelyzer.Analyzing.NuGet.Reader;
@@ -17,27 +11,25 @@ namespace Sourcelyzer.Analyzing.NuGet.Tests
 {
     public class OutdatedNugetAnalyzerTests
     {
-        private readonly Mock<INuGetReferencesReader> _readerMock;
+        private readonly OutdatedNugetAnalyzer _analyzer;
         private readonly Mock<INuGetClient> _clientMock;
         private readonly Mock<IFile> _fileMock;
+        private readonly Mock<INuGetReferencesReader> _readerMock;
         private readonly Mock<IRepository> _repositoryMock;
 
-        private readonly OutdatedNugetAnalyzer _analyzer;
-        
         public OutdatedNugetAnalyzerTests()
         {
             _readerMock = new Mock<INuGetReferencesReader>();
             _clientMock = new Mock<INuGetClient>();
             _fileMock = new Mock<IFile>();
             _repositoryMock = new Mock<IRepository>();
-            
+
             _repositoryMock.Setup(x => x.GetFilesAsync())
                 .ReturnsAsync(() => new List<IFile> {_fileMock.Object});
-                
-            _analyzer = new OutdatedNugetAnalyzer(_readerMock.Object, _clientMock.Object);
 
+            _analyzer = new OutdatedNugetAnalyzer(_readerMock.Object, _clientMock.Object);
         }
-        
+
         [Theory]
         [InlineData("file.xml", true)]
         [InlineData("packages.config", false)]

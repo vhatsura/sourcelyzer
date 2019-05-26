@@ -21,8 +21,8 @@ namespace Sourcelyzer.GitHub.Collecting
         public async Task<IEnumerable<IRepository>> GetRepositoriesAsync()
         {
             var client = _options.Client;
-            
-            var repositories =  _options.Filter.OrganizationsToAnalyze.Any()
+
+            var repositories = _options.Filter.OrganizationsToAnalyze.Any()
                 ? GetRepositoriesFromOrganizations(client, _options.Filter.OrganizationsToAnalyze)
                 : await client.Repository.GetAllPublic();
 
@@ -31,7 +31,8 @@ namespace Sourcelyzer.GitHub.Collecting
                 .Select(repository => repository.Transform(client));
         }
 
-        private IEnumerable<Repository> GetRepositoriesFromOrganizations(GitHubClient client, IEnumerable<string> organizations)
+        private IEnumerable<Repository> GetRepositoriesFromOrganizations(GitHubClient client,
+            IEnumerable<string> organizations)
         {
             return organizations
                 .Await((org, token) => client.Repository.GetAllForOrg(org))

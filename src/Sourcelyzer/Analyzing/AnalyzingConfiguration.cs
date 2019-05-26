@@ -5,16 +5,13 @@ namespace Sourcelyzer.Analyzing
 {
     public class AnalyzingConfiguration
     {
-        private readonly IList<IAnalyzer> _analyzers = new List<IAnalyzer>();
-
-        public IList<IAnalyzer> Analyzers => _analyzers;
+        public IList<IAnalyzer> Analyzers { get; } = new List<IAnalyzer>();
 
         public void AddAnalyzer(IAnalyzer analyzer)
         {
-            if (analyzer == null)
-                throw new ArgumentNullException(nameof(analyzer));
+            if (analyzer == null) throw new ArgumentNullException(nameof(analyzer));
 
-            _analyzers.Add(analyzer);
+            Analyzers.Add(analyzer);
         }
     }
 }
