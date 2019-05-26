@@ -9,12 +9,12 @@ namespace Sourcelyzer.Reporting.File.Options
 
         internal string Path { get; }
 
-        internal SegregationType Segregation { get; private set; }
-
-        public FileOptions SegregateBy(SegregationType type)
-        {
-            Segregation = type;
-            return this;
-        }
+//        internal SegregationType Segregation { get; private set; }
+//
+//        public FileOptions SegregateBy(SegregationType type)
+//        {
+//            Segregation = type;
+//            return this;
+//        }
     }
 }

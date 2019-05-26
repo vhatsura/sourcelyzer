@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Sourcelyzer.Model.Analyzing;
-using Sourcelyzer.Reporting.File.Options;
 using FileOptions = Sourcelyzer.Reporting.File.Options.FileOptions;
 
 namespace Sourcelyzer.Reporting.File
@@ -14,52 +13,24 @@ namespace Sourcelyzer.Reporting.File
         protected BaseFileReporter(FileOptions options)
         {
             _options = options;
+
+            if (!Directory.Exists(_options.Path))
+                Directory.CreateDirectory(_options.Path);
         }
 
         protected abstract string Extension { get; }
 
-        private string FormattedDate => DateTime.UtcNow.ToString("yyyy-MM-ddThh:mm:ss.fff");
+        private string FormattedDate => DateTime.UtcNow.ToString("yyyy-MM-ddThh-mm-ss.fff");
 
         public async Task ReportAsync(IAnalyzerResult result)
         {
-            switch (_options.Segregation)
+            var reportPath = Path.Combine(_options.Path,
+                $"{result.Repository.Owner}.{result.Repository.Name}.{result.GetType().Name}.{Extension}");
+
+            using (var fileStream = System.IO.File.Open(reportPath, FileMode.Append))
+            using (var writer = new StreamWriter(fileStream))
             {
-                case SegregationType.AllInOne:
-                {
-//                    var filePath = Path.Combine(_options.Path,
-//                        $"report.{DateTime.UtcNow:yyyy-MM-ddThh:mm:ss.fff}.{Extension}");
-//                    using (var fileStream = System.IO.File.Create(filePath))
-//                    {
-//                        
-//                    }
-                }
-                    throw new NotImplementedException();
-                case SegregationType.DirectoryPerRepository:
-                {
-                    var directoryPath = Path.Combine(_options.Path, result.Repository.Owner, result.Repository.Name);
-                    if (!Directory.Exists(directoryPath))
-                        Directory.CreateDirectory(directoryPath);
-
-                    var reportPath = Path.Combine(
-                        directoryPath,
-                        $"report.{result.GetType().Name}.{FormattedDate}.{Extension}");
-                    
-                    using (var fileStream = System.IO.File.Create(reportPath))
-                    using (var writer = new StreamWriter(fileStream))
-                    {
-                        await WriteIssueAsync(result, writer);
-                    }
-
-                    break;    
-                }  
-                case SegregationType.DirectoryPerIssue:
-                    throw new NotImplementedException();
-                case SegregationType.FilePerRepository:
-                    throw new NotImplementedException();
-                case SegregationType.FilePerIssue:
-                    throw new NotImplementedException();
-                default:
-                    throw new ArgumentOutOfRangeException();
+                await WriteIssueAsync(result, writer);
             }
         }
 

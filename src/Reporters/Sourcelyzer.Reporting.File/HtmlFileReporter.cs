@@ -19,11 +19,12 @@ namespace Sourcelyzer.Reporting.File
         protected override string Extension => "html";
 
 
-        protected override Task WriteIssueAsync(IAnalyzerResult result, TextWriter writer)
+        protected override async Task WriteIssueAsync(IAnalyzerResult result, TextWriter writer)
         {
             var html = Markdown.ToHtml(result.ToMarkdown(), _pipeline);
 
-            return writer.WriteAsync(html);
+            await writer.WriteLineAsync($"<h3>{result.Title}</h3>");
+            await writer.WriteAsync(html);
         }
     }
 }

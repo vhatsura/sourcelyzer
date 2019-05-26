@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NuGet.Configuration;
 using Sourcelyzer.Model;
 using Sourcelyzer.Model.Analyzing;
 
@@ -8,44 +9,52 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 {
     internal class OutdatedNuGetResult : IAnalyzerResult
     {
-        internal OutdatedNuGetResult(IRepository repository, NuGetMetadata metadata, IEnumerable<string> projects)
+        internal OutdatedNuGetResult(IRepository repository, string packageName, PackageSource source, Version latest,
+            IEnumerable<(string Project, Version Version)> projects)
         {
-            if (metadata == null) throw new ArgumentNullException(nameof(metadata));
-
-            if (!metadata.IsOutdated)
-                throw new ArgumentException("The nuget package must be outdated", nameof(metadata));
+            if (string.IsNullOrWhiteSpace(packageName))
+                throw new ArgumentNullException(nameof(packageName));
 
             Repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            OutdatedNuGet = metadata;
+            PackageSource = source ?? throw new ArgumentNullException(nameof(source));
+            Latest = latest ?? throw new ArgumentNullException(nameof(latest));
+
             Projects = projects;
+            PackageName = packageName;
         }
 
-        internal NuGetMetadata OutdatedNuGet { get; }
+        internal string PackageName { get; }
 
-        internal IEnumerable<string> Projects { get; }
+        internal Version Latest { get; }
+
+        internal PackageSource PackageSource { get; }
+
+        internal IEnumerable<(string Project, Version Version)> Projects { get; }
 
         public IRepository Repository { get; }
 
         public string Title =>
-            $"Package {OutdatedNuGet.PackageName} need to be updated to {OutdatedNuGet.Latest} version";
+            $"Package {PackageName} need to be updated to {Latest} version";
+
+        public string ShortTitle => PackageName;
 
         public string ToMarkdown()
         {
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.Append($"`{OutdatedNuGet.PackageName}` from ");
+            stringBuilder.Append($"`{PackageName}` from ");
             stringBuilder.Append(
-                $"[{OutdatedNuGet.PackageSource.SourceUri.Host}]({OutdatedNuGet.PackageSource.SourceUri}) ");
+                $"[{PackageSource.SourceUri.Host}]({PackageSource.SourceUri}) ");
             stringBuilder.AppendLine("is outdated in:");
 
             foreach (var project in Projects)
             {
-                stringBuilder.AppendLine($"* {project}");
+                stringBuilder.AppendLine($"* {project.Project} - {project.Version}");
             }
 
             stringBuilder.AppendLine();
 
-            stringBuilder.AppendLine($"The latest version is {OutdatedNuGet.Latest}");
+            stringBuilder.AppendLine($"The latest version is {Latest}");
 
             return stringBuilder.ToString();
         }
