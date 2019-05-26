@@ -14,7 +14,8 @@ BuildParameters.SetParameters(context: Context,
                             shouldRunGitVersion: true,
                             shouldRunDotNetCorePack: true,
                             shouldPublishMyGet: pushNuGetPackages,
-                            shouldPublishNuGet: pushNuGetPackages);
+                            shouldPublishNuGet: pushNuGetPackages,
+                            shouldRunCodecov: true);
 
 BuildParameters.PrintParameters(Context);
 
