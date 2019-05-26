@@ -3,7 +3,8 @@ using System.Threading.Tasks;
 using Sourcelyzer;
 using Sourcelyzer.Analyzing.Nuget;
 using Sourcelyzer.GitHub.Collecting;
-using Sourcelyzer.GitHub.Reporting;
+using Sourcelyzer.Reporting.File;
+using Sourcelyzer.Reporting.File.Options;
 
 [assembly: ExcludeFromCodeCoverage]
 
@@ -17,7 +18,8 @@ namespace Example.NetCoreApp
                 .Collecting.FromGitHub("Sourcelyzer",
                     builder => { })
                 .Analyzing.FindOutdatedNuget(new[] {"https://api.nuget.org/v3/index.json"})
-                .Reporting.AsGitHubIssue()
+                .Reporting.AsHtmlFile("reports",
+                    options => { options.SegregateBy(SegregationType.DirectoryPerRepository); })
                 .Build();
 
             await sourcelyzer.RunAsync();
