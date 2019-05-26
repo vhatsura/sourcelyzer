@@ -9,11 +9,11 @@ namespace Sourcelyzer.GitHub.Collecting
             Action<GitHubCollectorBuilder> configureAction = null)
         {
             var collectingBuilder = new GitHubCollectorBuilder(productName, Options.Create());
-            
+
             configureAction?.Invoke(collectingBuilder);
-            
+
             builder.Configuration.AddCollector(collectingBuilder.Build());
-            
+
             return builder.Builder;
         }
     }

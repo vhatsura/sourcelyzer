@@ -5,16 +5,13 @@ namespace Sourcelyzer.Collecting
 {
     public class CollectingConfiguration
     {
-        private readonly IList<ICollector> _collectors = new List<ICollector>();
-
-        public IList<ICollector> Collectors => _collectors;
+        public IList<ICollector> Collectors { get; } = new List<ICollector>();
 
         public void AddCollector(ICollector collector)
         {
-            if (collector == null)
-                throw new ArgumentNullException(nameof(collector));
+            if (collector == null) throw new ArgumentNullException(nameof(collector));
 
-            _collectors.Add(collector);
+            Collectors.Add(collector);
         }
     }
 }

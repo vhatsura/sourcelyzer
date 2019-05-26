@@ -13,6 +13,6 @@ namespace Sourcelyzer.Analyzing.Nuget
             builder.Configuration.AddAnalyzer(analyzer);
 
             return builder.Builder;
-        }    
+        }
     }
 }

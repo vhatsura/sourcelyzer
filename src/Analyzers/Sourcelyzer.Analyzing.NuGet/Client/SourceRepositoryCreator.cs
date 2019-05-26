@@ -15,17 +15,9 @@ namespace Sourcelyzer.Analyzing.NuGet.Client
 
         private IEnumerable<Lazy<INuGetResourceProvider>> Providers { get; }
 
-        SourceRepository ISourceRepositoryCreator.Create(string packageSource)
+        public SourceRepository Create(string packageSource)
         {
-            return Create(packageSource);
-        }
-
-        internal SourceRepository Create(string packageSource)
-        {
-            if (string.IsNullOrWhiteSpace(packageSource))
-            {
-                throw new ArgumentNullException(nameof(packageSource));
-            }
+            if (string.IsNullOrWhiteSpace(packageSource)) throw new ArgumentNullException(nameof(packageSource));
 
             var source = new PackageSource(packageSource);
 
