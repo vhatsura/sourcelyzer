@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\Analyzers\Sourcelyzer.Analyzing.NuGet\Sourcelyzer.Analyzing.NuGet.csproj" />
+      <ProjectReference Include="..\..\src\Reporters\Sourcelyzer.Reporting.File\Sourcelyzer.Reporting.File.csproj" />
       <ProjectReference Include="..\..\src\Sourcelyzer.GitHub\Sourcelyzer.GitHub.csproj" />
       <ProjectReference Include="..\..\src\Sourcelyzer\Sourcelyzer.csproj" />
     </ItemGroup>

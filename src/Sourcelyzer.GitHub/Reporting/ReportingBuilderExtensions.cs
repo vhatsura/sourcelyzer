@@ -2,7 +2,7 @@ using Sourcelyzer.Reporting;
 
 namespace Sourcelyzer.GitHub.Reporting
 {
-    public static class BuilderExtensions
+    public static class ReportingBuilderExtensions
     {
         public static SourcelyzerBuilder AsGitHubIssue(this ReportingBuilder reportingBuilder)
         {

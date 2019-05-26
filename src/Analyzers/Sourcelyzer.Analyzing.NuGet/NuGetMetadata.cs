@@ -1,16 +1,19 @@
 using System;
+using System.Diagnostics;
 using NuGet.Configuration;
 using NuGet.Packaging;
+using NuGet.Versioning;
 
 namespace Sourcelyzer.Analyzing.Nuget
 {
+    [DebuggerDisplay("{PackageName}-{Current}")]
     public class NuGetMetadata : IEquatable<NuGetMetadata>
     {
-        internal NuGetMetadata(PackageReference current, (PackageSource PackageSource, Version Version) latest)
+        internal NuGetMetadata(PackageReference current, (PackageSource PackageSource, NuGetVersion Version) latest)
         {
             PackageName = current?.PackageIdentity.Id ?? throw new ArgumentNullException(nameof(current));
             IsPrerelease = current.PackageIdentity.Version.IsPrerelease;
-            Current = current.PackageIdentity.Version.Version;
+            Current = current.PackageIdentity.Version;
 
             Latest = latest.Version;
             PackageSource = latest.PackageSource;
@@ -24,9 +27,9 @@ namespace Sourcelyzer.Analyzing.Nuget
 
         public bool IsOutdated => Latest != null && Latest > Current;
 
-        public Version Current { get; }
+        public NuGetVersion Current { get; }
 
-        public Version Latest { get; }
+        public NuGetVersion Latest { get; }
 
         public bool Equals(NuGetMetadata other)
         {

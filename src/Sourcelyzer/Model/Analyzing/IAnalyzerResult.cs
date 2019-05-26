@@ -6,6 +6,8 @@ namespace Sourcelyzer.Model.Analyzing
 
         string Title { get; }
 
+        string ShortTitle { get; }
+
         string ToMarkdown();
     }
 }
