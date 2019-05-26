@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NuGet.Configuration;
+using NuGet.Versioning;
 using Sourcelyzer.Model;
 using Sourcelyzer.Model.Analyzing;
 
@@ -9,8 +10,8 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 {
     internal class OutdatedNuGetResult : IAnalyzerResult
     {
-        internal OutdatedNuGetResult(IRepository repository, string packageName, PackageSource source, Version latest,
-            IEnumerable<(string Project, Version Version)> projects)
+        internal OutdatedNuGetResult(IRepository repository, string packageName, PackageSource source, NuGetVersion latest,
+            IEnumerable<(string Project, NuGetVersion Version)> projects)
         {
             if (string.IsNullOrWhiteSpace(packageName))
                 throw new ArgumentNullException(nameof(packageName));
@@ -25,11 +26,11 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 
         internal string PackageName { get; }
 
-        internal Version Latest { get; }
+        internal NuGetVersion Latest { get; }
 
         internal PackageSource PackageSource { get; }
 
-        internal IEnumerable<(string Project, Version Version)> Projects { get; }
+        internal IEnumerable<(string Project, NuGetVersion Version)> Projects { get; }
 
         public IRepository Repository { get; }
 
@@ -44,16 +45,18 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 
             stringBuilder.Append($"`{PackageName}` from ");
             stringBuilder.Append(
-                $"[{PackageSource.SourceUri.Host}]({PackageSource.SourceUri}) ");
+                PackageSource.TrySourceAsUri != null
+                    ? $"[{PackageSource.SourceUri.Host}]({PackageSource.SourceUri}) "
+                    : $"`{PackageSource.Name}` ");
+
             stringBuilder.AppendLine("is outdated in:");
 
-            foreach (var project in Projects)
+            foreach (var (project, version) in Projects)
             {
-                stringBuilder.AppendLine($"* {project.Project} - {project.Version}");
+                stringBuilder.AppendLine($"* {project} - {version}");
             }
 
             stringBuilder.AppendLine();
-
             stringBuilder.AppendLine($"The latest version is {Latest}");
 
             return stringBuilder.ToString();
