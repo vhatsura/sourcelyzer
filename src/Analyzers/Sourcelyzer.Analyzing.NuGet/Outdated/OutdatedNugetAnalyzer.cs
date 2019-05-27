@@ -32,6 +32,7 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 
         public async Task<IEnumerable<IAnalyzerResult>> AnalyzeAsync(IRepository repository)
         {
+            //todo: split this functionality to base class
             var files = (await repository.GetFilesAsync())
                 .Where(f => f.Path.EndsWith(".csproj") || f.Path.EndsWith("packages.config"));
 
@@ -39,7 +40,8 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 
             return outDatedNuGets.SelectMany(x => x.OutDatedNuGets.Select(n => (x.Project, NuGetMetadata: n)))
                 .GroupBy(x => x.NuGetMetadata.PackageName)
-                .Select(x => new OutdatedNuGetResult(repository, x.First().NuGetMetadata, x.Select(v => v.Project)))
+                .Select(x => new OutdatedNuGetResult(repository, x.Key, x.First().NuGetMetadata.PackageSource,
+                    x.First().NuGetMetadata.Latest, x.Select(v => (v.Project, v.NuGetMetadata.Current))))
                 .ToList();
         }
 
@@ -52,7 +54,7 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
             {
                 var packages = (await Reader.GetPackagesAsync(file))
                     .Select(x => GetNuGetMetadata(x))
-                    .Where(x => x.IsPrerelease || x.IsOutdated)
+                    .Where(x => x.IsOutdated)
                     .ToList();
 
                 if (packages.Any()) result.Add((file.Path, packages));
@@ -70,7 +72,10 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
                 var latest = packageVersions
                     .Select(x => (
                         x.PackageSource,
-                        Version: x.Versions.Where(v => !v.IsPrerelease).DefaultIfEmpty().Max(v => v?.Version)))
+                        // todo: cover by unit tests
+                        Version: x.Versions.Count == 1
+                            ? x.Versions.First()
+                            : x.Versions.Where(v => !v.IsPrerelease).DefaultIfEmpty().Max()))
                     .MaxBy(x => x.Version)
                     .FirstOrDefault(x => x.Version != default);
 
@@ -79,7 +84,7 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
             catch (Exception exception)
             {
                 return new NuGetMetadata(package,
-                    (PackageSource: new PackageSource("local"), package.PackageIdentity.Version.Version));
+                    (PackageSource: new PackageSource("local"), package.PackageIdentity.Version));
             }
         }
     }
