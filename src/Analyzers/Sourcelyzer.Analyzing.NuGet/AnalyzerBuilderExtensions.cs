@@ -1,3 +1,4 @@
+using Sourcelyzer.Analyzing.Nuget.Config;
 using Sourcelyzer.Analyzing.Nuget.Outdated;
 
 namespace Sourcelyzer.Analyzing.Nuget
@@ -12,6 +13,15 @@ namespace Sourcelyzer.Analyzing.Nuget
 
             builder.Configuration.AddAnalyzer(analyzer);
 
+            return builder.Builder;
+        }
+
+        public static SourcelyzerBuilder NuGetConfigIsPresented(this AnalyzingBuilder builder)
+        {
+            var analyzer = new NuGetConfigAnalyzer();
+            
+            builder.Configuration.AddAnalyzer(analyzer);
+            
             return builder.Builder;
         }
     }
