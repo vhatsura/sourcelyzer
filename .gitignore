@@ -333,3 +333,4 @@ ASALocalRun/
 .dotnet/*
 tools/*
 BuildArtifacts/*
+examples/Example\.NetCoreApp/reports/

@@ -40,7 +40,7 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 
             return outDatedNuGets.SelectMany(x => x.OutDatedNuGets.Select(n => (x.Project, NuGetMetadata: n)))
                 .GroupBy(x => x.NuGetMetadata.PackageName)
-                .Select(x => new OutdatedNuGetResult(repository, x.Key, x.First().NuGetMetadata.PackageSource,
+                .Select(x => new OutdatedNuGet(repository, x.Key, x.First().NuGetMetadata.PackageSource,
                     x.First().NuGetMetadata.Latest, x.Select(v => (v.Project, v.NuGetMetadata.Current))))
                 .ToList();
         }
