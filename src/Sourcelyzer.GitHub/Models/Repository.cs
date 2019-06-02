@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MoreLinq.Experimental;
@@ -9,6 +10,7 @@ using Sourcelyzer.Model;
 
 namespace Sourcelyzer.GitHub.Models
 {
+    [DebuggerDisplay("{Owner}/{Name}")]
     internal class Repository : IRepository
     {
         private readonly GitHubClient _client;

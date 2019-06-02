@@ -8,9 +8,9 @@ using Sourcelyzer.Model.Analyzing;
 
 namespace Sourcelyzer.Analyzing.Nuget.Outdated
 {
-    internal class OutdatedNuGetResult : IAnalyzerResult
+    internal class OutdatedNuGet : IAnalyzerResult
     {
-        internal OutdatedNuGetResult(IRepository repository, string packageName, PackageSource source, NuGetVersion latest,
+        internal OutdatedNuGet(IRepository repository, string packageName, PackageSource source, NuGetVersion latest,
             IEnumerable<(string Project, NuGetVersion Version)> projects)
         {
             if (string.IsNullOrWhiteSpace(packageName))
