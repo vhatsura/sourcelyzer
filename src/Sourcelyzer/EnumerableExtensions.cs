@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Sourcelyzer.Analyzing.Nuget
+namespace Sourcelyzer
 {
     public static class EnumerableExtensions
     {
