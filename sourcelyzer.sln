@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "reporters", "reporters", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sourcelyzer.Reporting.File", "src\Reporters\Sourcelyzer.Reporting.File\Sourcelyzer.Reporting.File.csproj", "{DAF70FC7-3A41-451E-BACE-51E939D071D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sourcelyzer.Analyzing.Repository", "src\Analyzers\Sourcelyzer.Analyzing.Repository\Sourcelyzer.Analyzing.Repository.csproj", "{4CCFD22A-3642-4CAF-9CB6-006C44C1297D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{DAF70FC7-3A41-451E-BACE-51E939D071D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAF70FC7-3A41-451E-BACE-51E939D071D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAF70FC7-3A41-451E-BACE-51E939D071D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CCFD22A-3642-4CAF-9CB6-006C44C1297D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CCFD22A-3642-4CAF-9CB6-006C44C1297D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CCFD22A-3642-4CAF-9CB6-006C44C1297D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CCFD22A-3642-4CAF-9CB6-006C44C1297D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DED861DF-C2A9-4754-90FE-B7D12805D6DB} = {58F76BA2-9F07-4B7F-8999-0A0CEDB31A81}
@@ -69,5 +75,6 @@ Global
 		{CA6A2D48-EBC7-4640-B1F3-FB30C8A0DD74} = {0E2D1969-592B-47E8-8FCD-D2EF73599448}
 		{4345A8B7-82FE-4C99-81DE-D478F373E520} = {EFDC7CF7-281B-403A-81FF-C7F0FE046DC7}
 		{DAF70FC7-3A41-451E-BACE-51E939D071D8} = {22B09734-D2D2-4EBF-817E-EA829DF03492}
+		{4CCFD22A-3642-4CAF-9CB6-006C44C1297D} = {0E2D1969-592B-47E8-8FCD-D2EF73599448}
 	EndGlobalSection
 EndGlobal

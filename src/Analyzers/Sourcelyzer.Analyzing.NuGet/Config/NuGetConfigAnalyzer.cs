@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NuGet.Packaging;
 using Sourcelyzer.Model;
 using Sourcelyzer.Model.Analyzing;
 
@@ -16,7 +15,8 @@ namespace Sourcelyzer.Analyzing.Nuget.Config
             "nuget.config"
         };
 
-        protected override async Task<IEnumerable<IAnalyzerResult>> AnalyzeAsync(IEnumerable<IFile> files, IRepository repository)
+        protected override Task<IEnumerable<IAnalyzerResult>> AnalyzeAsync(IEnumerable<IFile> files,
+            IRepository repository)
         {
             //todo: handle a few solution files in repo
             var solutionFile = files.FirstOrDefault(f => f.Path.EndsWith(".sln"));
@@ -29,7 +29,7 @@ namespace Sourcelyzer.Analyzing.Nuget.Config
 
                 if (!nugetConfigs.Any())
                 {
-                    return new MissedNuGetConfig(repository).Yield();
+                    return Task.FromResult(((IAnalyzerResult) new MissedNuGetConfig(repository)).Yield());
                 }
 
                 if (nugetConfigs.Count == 1)
@@ -44,19 +44,22 @@ namespace Sourcelyzer.Analyzing.Nuget.Config
                             : nugetConfigPath.Replace(solutionPath, string.Empty);
 
                         var nugetFolders = new HashSet<string> {"/.nuget", ".nuget"};
-                        if (!nugetFolders.Contains(relativePathToSolutionFile) && !solutionPath.StartsWith(nugetConfigPath))
+                        if (!nugetFolders.Contains(relativePathToSolutionFile) &&
+                            !solutionPath.StartsWith(nugetConfigPath))
                         {
-                            return new InvalidNuGetConfigLocation(repository, nugetConfigPath, solutionPath).Yield();
+                            return Task.FromResult(
+                                ((IAnalyzerResult) new InvalidNuGetConfigLocation(repository, nugetConfigPath,
+                                    solutionPath)).Yield());
                         }
                     }
                 }
                 else
                 {
-                    int i = 0;
+                    // todo: implement logic for several nuget config files
                 }
             }
 
-            return Enumerable.Empty<IAnalyzerResult>();
+            return Task.FromResult(Enumerable.Empty<IAnalyzerResult>());
 
             string DirectoryPath(string path)
             {
