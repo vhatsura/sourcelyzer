@@ -8,13 +8,16 @@ using Sourcelyzer.Model.Analyzing;
 
 namespace Sourcelyzer.Analyzing.Nuget.Config
 {
-    public class NuGetConfigAnalyzer : IAnalyzer
+    public class NuGetConfigAnalyzer : BaseAnalyzer
     {
-        public async Task<IEnumerable<IAnalyzerResult>> AnalyzeAsync(IRepository repository)
+        protected override IEnumerable<string> FilesToAnalysis => new List<string>
         {
-            //todo: split this functionality to base class
-            var files = (await repository.GetFilesAsync()).ToList();
+            ".sln",
+            "nuget.config"
+        };
 
+        protected override async Task<IEnumerable<IAnalyzerResult>> AnalyzeAsync(IEnumerable<IFile> files, IRepository repository)
+        {
             //todo: handle a few solution files in repo
             var solutionFile = files.FirstOrDefault(f => f.Path.EndsWith(".sln"));
 

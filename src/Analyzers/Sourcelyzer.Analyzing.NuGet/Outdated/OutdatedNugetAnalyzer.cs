@@ -13,7 +13,7 @@ using Sourcelyzer.Model.Analyzing;
 
 namespace Sourcelyzer.Analyzing.Nuget.Outdated
 {
-    public class OutdatedNugetAnalyzer : IAnalyzer
+    public class OutdatedNugetAnalyzer : BaseAnalyzer
     {
         internal OutdatedNugetAnalyzer(NugetOptions options)
             : this(new NuGetReferencesReader(), new NuGetClient(options?.PackageSources))
@@ -30,12 +30,10 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 
         private INuGetClient NuGetClient { get; }
 
-        public async Task<IEnumerable<IAnalyzerResult>> AnalyzeAsync(IRepository repository)
+        protected override IEnumerable<string> FilesToAnalysis => new List<string>{".csproj", "packages.config"};
+        
+        protected override async Task<IEnumerable<IAnalyzerResult>> AnalyzeAsync(IEnumerable<IFile> files, IRepository repository)
         {
-            //todo: split this functionality to base class
-            var files = (await repository.GetFilesAsync())
-                .Where(f => f.Path.EndsWith(".csproj") || f.Path.EndsWith("packages.config"));
-
             var outDatedNuGets = await GetAnalyzerResultsAsync(files);
 
             return outDatedNuGets.SelectMany(x => x.OutDatedNuGets.Select(n => (x.Project, NuGetMetadata: n)))
