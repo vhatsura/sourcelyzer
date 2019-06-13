@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Sourcelyzer.Model.Analyzing
 {
     public interface IAnalyzerResult
@@ -8,6 +10,10 @@ namespace Sourcelyzer.Model.Analyzing
 
         string ShortTitle { get; }
 
+        IDictionary<string, string> TechnicalInfo { get; }
+
         string ToMarkdown();
+
+        Status ActualizeStatus(IDictionary<string,string> technicalInfo);
     }
 }

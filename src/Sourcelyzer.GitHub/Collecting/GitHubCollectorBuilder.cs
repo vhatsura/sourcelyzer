@@ -23,7 +23,7 @@ namespace Sourcelyzer.GitHub.Collecting
 
         public GitHubCollectorBuilder WithAuthorizationToken(string token)
         {
-            _options.CredentialStore = new InMemoryCredentialStore(new Credentials(token));
+            _options.CredentialStore = new InMemoryCredentialStore(new Credentials(token, AuthenticationType.Bearer));
             return this;
         }
 

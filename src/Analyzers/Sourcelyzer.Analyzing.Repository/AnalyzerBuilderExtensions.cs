@@ -4,7 +4,7 @@ namespace Sourcelyzer.Analyzing.Repository
 {
     public static class AnalyzerBuilderExtensions
     {
-        public static SourcelyzerBuilder ReadmeFileIsExist(this AnalyzingBuilder builder)
+        public static SourcelyzerBuilder ReadmeFileExists(this AnalyzingBuilder builder)
         {
             var analyzer = new ReadmeFileAnalyzer();
             
