@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Octokit;
@@ -5,6 +6,7 @@ using Sourcelyzer.Model;
 
 namespace Sourcelyzer.GitHub.Models
 {
+    [DebuggerDisplay("{" + nameof(Path) + "}")]
     internal class File : IFile
     {
         private readonly RepositoryContent _content;

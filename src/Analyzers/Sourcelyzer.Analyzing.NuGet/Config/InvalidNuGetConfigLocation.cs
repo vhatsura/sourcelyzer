@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text;
 using Sourcelyzer.Model;
 
@@ -15,7 +16,8 @@ namespace Sourcelyzer.Analyzing.Nuget.Config
         public override string Title => "Invalid location of NuGet.config";
 
         public override string ShortTitle => Title;
-        
+        public override IDictionary<string, string> TechnicalInfo => new Dictionary<string, string>();
+
         private string NuGetConfigPath { get; }
         private string SolutionFilePath { get; }
 

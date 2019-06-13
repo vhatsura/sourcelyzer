@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using NuGet.Configuration;
 using NuGet.Versioning;
@@ -8,6 +9,7 @@ using Sourcelyzer.Model.Analyzing;
 
 namespace Sourcelyzer.Analyzing.Nuget.Outdated
 {
+    [DebuggerDisplay("{PackageName}:{Latest}")]
     internal class OutdatedNuGet : IAnalyzerResult
     {
         internal OutdatedNuGet(IRepository repository, string packageName, PackageSource source, NuGetVersion latest,
@@ -39,6 +41,12 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
 
         public string ShortTitle => PackageName;
 
+        public IDictionary<string, string> TechnicalInfo => new Dictionary<string, string>
+        {
+            {nameof(PackageName), PackageName},
+            {nameof(Latest), Latest.ToFullString()}
+        };
+
         public string ToMarkdown()
         {
             var stringBuilder = new StringBuilder();
@@ -60,6 +68,18 @@ namespace Sourcelyzer.Analyzing.Nuget.Outdated
             stringBuilder.AppendLine($"The latest version is {Latest}");
 
             return stringBuilder.ToString();
+        }
+
+        public Status ActualizeStatus(IDictionary<string, string> technicalInfo)
+        {
+            if (!technicalInfo.ContainsKey(nameof(PackageName))) return Status.Another;
+
+            if (!technicalInfo[nameof(PackageName)].Equals(PackageName, StringComparison.OrdinalIgnoreCase))
+                return Status.Another;
+
+            var reportedVersion = NuGetVersion.Parse(technicalInfo[nameof(Latest)]);
+
+            return Latest > reportedVersion ? Status.NeedToUpdate : Status.UpToDate;
         }
     }
 }
