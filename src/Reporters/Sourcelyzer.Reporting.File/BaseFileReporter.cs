@@ -27,7 +27,7 @@ namespace Sourcelyzer.Reporting.File
             var reportPath = Path.Combine(_options.Path,
                 $"{result.Repository.Owner}.{result.Repository.Name}.{result.GetType().Name}.{Extension}");
 
-            using (var fileStream = System.IO.File.Open(reportPath, FileMode.Append))
+            var fileStream = System.IO.File.Open(reportPath, FileMode.Append);
             using (var writer = new StreamWriter(fileStream))
             {
                 await WriteIssueAsync(result, writer);
