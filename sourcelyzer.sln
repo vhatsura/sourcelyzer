@@ -4,10 +4,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sourcelyzer", "src\Sourcely
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{73614021-A87B-4E5B-9868-D49959145A79}"
 ProjectSection(SolutionItems) = preProject
-	build.cake = build.cake
-	build.sh = build.sh
 	README.md = README.md
-	build.ps1 = build.ps1
+	.gitattributes = .gitattributes
+	.gitignore = .gitignore
+	azure-pipelines.yml = azure-pipelines.yml
+	GitVersion.yml = GitVersion.yml
+	LICENSE = LICENSE
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{58F76BA2-9F07-4B7F-8999-0A0CEDB31A81}"
