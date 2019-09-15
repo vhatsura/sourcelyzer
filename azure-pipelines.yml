@@ -11,7 +11,14 @@ jobs:
   displayName: Build, analyze and run unit tests
   pool:
     vmImage: 'ubuntu-latest'
-  steps:   
+  steps:
+  
+  - task: UseDotNet@2
+    inputs:
+      packageType: sdk
+      version: '2.2.x'
+    displayName: Install .Net Core 2.2.x SDK
+        
   - task: UseDotNet@2
     inputs:
       packageType: sdk
