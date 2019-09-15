@@ -10,10 +10,6 @@ namespace Sourcelyzer
 {
     public class Sourcelyzer
     {
-        private IReadOnlyCollection<ICollector> Collectors { get; }
-        private IReadOnlyCollection<IAnalyzer> Analyzers { get; }
-        private IReadOnlyCollection<IReporter> Reporters { get; }
-
         public Sourcelyzer(IEnumerable<ICollector> collectors, IEnumerable<IAnalyzer> analyzers,
             IEnumerable<IReporter> reporters)
         {
@@ -21,6 +17,10 @@ namespace Sourcelyzer
             Analyzers = analyzers?.ToList().AsReadOnly() ?? throw new ArgumentNullException(nameof(analyzers));
             Reporters = reporters?.ToList().AsReadOnly() ?? throw new ArgumentNullException(nameof(reporters));
         }
+
+        private IReadOnlyCollection<ICollector> Collectors { get; }
+        private IReadOnlyCollection<IAnalyzer> Analyzers { get; }
+        private IReadOnlyCollection<IReporter> Reporters { get; }
 
         public async Task RunAsync()
         {
@@ -32,11 +32,14 @@ namespace Sourcelyzer
                 {
                     foreach (var analyzer in Analyzers)
                     {
-                        var result = await analyzer.AnalyzeAsync(repository);
+                        var results = await analyzer.AnalyzeAsync(repository);
 
-                        foreach (var reporter in Reporters)
+                        foreach (var analyzerResult in results)
                         {
-                            reporter.Report(result);
+                            foreach (var reporter in Reporters)
+                            {
+                                await reporter.ReportAsync(analyzerResult);
+                            }
                         }
                     }
                 }

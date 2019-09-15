@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Analyzers\Sourcelyzer.Analyzing.NuGet\Sourcelyzer.Analyzing.NuGet.csproj" />
+      <ProjectReference Include="..\..\src\Reporters\Sourcelyzer.Reporting.File\Sourcelyzer.Reporting.File.csproj" />
+      <ProjectReference Include="..\..\src\Sourcelyzer.GitHub\Sourcelyzer.GitHub.csproj" />
+      <ProjectReference Include="..\..\src\Sourcelyzer\Sourcelyzer.csproj" />
+    </ItemGroup>
+
+</Project>

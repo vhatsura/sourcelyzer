@@ -6,23 +6,23 @@ namespace Sourcelyzer
 {
     public class SourcelyzerBuilder
     {
-        public CollectorBuilder Collecting { get; }
-
-        public AnalyzerBuilder Analyzing { get; }
-
-        public ReporterBuilder Reporting { get; }
-
         public SourcelyzerBuilder()
         {
-            Collecting = new CollectorBuilder(this);
-            Analyzing = new AnalyzerBuilder(this);
-            Reporting = new ReporterBuilder(this);
+            Collecting = new CollectingBuilder(this);
+            Analyzing = new AnalyzingBuilder(this);
+            Reporting = new ReportingBuilder(this);
         }
+
+        public CollectingBuilder Collecting { get; }
+
+        public AnalyzingBuilder Analyzing { get; }
+
+        public ReportingBuilder Reporting { get; }
 
         public Sourcelyzer Build()
         {
-            return new Sourcelyzer(Collecting.Options.Collectors, Analyzing.Options.Analyzers,
-                Reporting.Options.Reporters);
+            return new Sourcelyzer(Collecting.Configuration.Collectors, Analyzing.Configuration.Analyzers,
+                Reporting.Configuration.Reporters);
         }
     }
 }
