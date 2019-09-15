@@ -10,7 +10,7 @@ using Sourcelyzer.Reporting.File.Options;
 
 namespace Example.NetCoreApp
 {
-    internal class Program
+    internal static class Program
     {
         private static async Task Main(string[] args)
         {

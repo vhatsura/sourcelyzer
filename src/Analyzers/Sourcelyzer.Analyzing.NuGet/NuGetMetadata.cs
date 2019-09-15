@@ -7,7 +7,7 @@ using NuGet.Versioning;
 namespace Sourcelyzer.Analyzing.Nuget
 {
     [DebuggerDisplay("{PackageName}-{Current}")]
-    public class NuGetMetadata : IEquatable<NuGetMetadata>
+    public sealed class NuGetMetadata : IEquatable<NuGetMetadata>
     {
         internal NuGetMetadata(PackageReference current, (PackageSource PackageSource, NuGetVersion Version) latest)
         {
